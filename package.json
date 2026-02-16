@@ -1,0 +1,26 @@
+{
+  "name": "card-management",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/zeeldhaduk/Card-management-platform#readme",
+  "bugs": {
+    "url": "https://github.com/zeeldhaduk/Card-management-platform/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeeldhaduk/Card-management-platform.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.2.1",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.8.1"
+  }
+}
