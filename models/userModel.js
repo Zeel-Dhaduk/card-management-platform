@@ -8,9 +8,19 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'User should have an email'],
     unique: true,
+    lowercase: true,
     validate: [validator.isEmail, 'Please enter valid email'],
+  },
+  phoneNo: {
+    type: String,
+    unique: true,
+    validate: {
+      validator: function (value) {
+        return validator.isMobilePhone(value, 'en-IN');
+      },
+      message: 'Invalid phone number',
+    },
   },
   password: {
     type: String,
@@ -23,8 +33,11 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'vendor', 'admin'],
     default: 'user',
   },
+  profileImg: {
+    type: String,
+  },
 });
 
-const User = mongoose.Schema('User', userSchema);
+const User = mongoose('User', userSchema);
 
 module.exports = User;
