@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,13 +12,16 @@ const userSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Please enter valid email'],
+    required: true,
   },
   phoneNo: {
     type: String,
     unique: true,
     validate: {
       validator: function (value) {
-        return validator.isMobilePhone(value, 'en-IN');
+        return validator.isMobilePhone(value, 'en-IN', {
+          strictMode: false,
+        });
       },
       message: 'Invalid phone number',
     },
@@ -38,6 +42,15 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose('User', userSchema);
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return;
 
+  this.password = await bcrypt.hash(this.password, 12);
+});
+
+userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+const User = mongoose.model('User', userSchema);
 module.exports = User;
