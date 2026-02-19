@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const cartItemSchema = new mongoose.Schema({
   card: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'card',
+    ref: 'Card',
     required: [true, 'cartItem should belong to a card'],
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'cart',
+    ref: 'Cart',
     required: [true, 'cartItem should belong to a cart'],
   },
   quantity: {
@@ -19,4 +19,4 @@ const cartItemSchema = new mongoose.Schema({
 
 const CartItem = mongoose.model('CartItem', cartItemSchema);
 
-module.exports = Order;
+module.exports = CartItem;

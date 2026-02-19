@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const userRouter = require('./routes/userRoute');
 const cardRouter = require('./routes/cardRoute');
 const categoryRouter = require('./routes/categoryRoute');
+const cartRouter = require('./routes/cartRoute');
+const cartItemRouter = require('./routes/cartItemRoute');
 
 const cookieParser = require('cookie-parser');
 
@@ -27,5 +29,7 @@ app.use((err, req, res, next) => {
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 app.use('/categories', categoryRouter);
+app.use('/cart', cartRouter);
+app.use('/gotocart', cartItemRouter);
 
 module.exports = app;
