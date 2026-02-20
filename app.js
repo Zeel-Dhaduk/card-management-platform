@@ -5,6 +5,8 @@ const cardRouter = require('./routes/cardRoute');
 const categoryRouter = require('./routes/categoryRoute');
 const cartRouter = require('./routes/cartRoute');
 const cartItemRouter = require('./routes/cartItemRoute');
+const orderRouter = require('./routes/orderRoute');
+const orderItemRouter = require('./routes/orderItemRoute');
 
 const cookieParser = require('cookie-parser');
 
@@ -31,5 +33,7 @@ app.use('/cards', cardRouter);
 app.use('/categories', categoryRouter);
 app.use('/cart', cartRouter);
 app.use('/gotocart', cartItemRouter);
+app.use('/checkout', orderRouter);
+app.use('/orders', orderItemRouter);
 
 module.exports = app;

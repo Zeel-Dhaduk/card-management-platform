@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const orderItem = new mongoose.Schema({
+  order: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Order',
+    required: true,
+  },
   card: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Card',
