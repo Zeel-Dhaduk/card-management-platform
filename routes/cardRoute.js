@@ -1,10 +1,12 @@
 const express = require('express');
 const authController = require('../controllers/authController');
 const cardController = require('../controllers/cardController');
+const reviewRouter = require('./reviewRoute');
 
 const router = express.Router();
 
 router.use(authController.protect);
+router.use('/:cardId/reviews', reviewRouter);
 
 router
   .route('/')
