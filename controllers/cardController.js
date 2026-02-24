@@ -1,9 +1,15 @@
 const catchAsync = require('../utils/catchAsync');
 const Card = require('../models/cardModel');
+const Email = require('../utils/email');
 
 exports.createCard = catchAsync(async (req, res, next) => {
   req.body.vendor = req.user._id;
   const card = await Card.create(req.body);
+
+  const filter = { to: 'card@admin.com', from: req.user.email, name: req.user.name };
+  const url = `${req.protocol}://${req.get('host')}/cards/${card._id}`;
+
+  await new Email(filter, url).sendCardCreated(req.user.name);
 
   res.status(201).json({
     status: 'success',
@@ -71,13 +77,30 @@ exports.updateCard = catchAsync(async (req, res, next) => {
   let filter = { _id: id };
 
   if (req.user.role === 'vendor') {
-    filter.vendor = req.user._id;
+    return res.status(403).json({
+      status: 'fail',
+      message: 'You are not authorized to update this card',
+    });
   }
 
   const card = await Card.findOneAndUpdate(filter, req.body, {
     new: true,
     runValidators: true,
-  });
+  }).populate('vendor', { name: 1 });
+
+  const filterObj = {
+    to: `${card.vendor.name}@card.com`,
+    from: req.user.email,
+    name: req.user.name,
+  };
+
+  const url = `${req.protocol}://${req.get('host')}/cards/${card._id}`;
+
+  if (req.body.status === 'approved') {
+    await new Email(filterObj, url).sendCardApproved(card.title);
+  } else if (req.body.status === 'rejected') {
+    await new Email(filterObj, url).sendCardRejected(card.title);
+  }
 
   if (!card) {
     return res.status(403).json({

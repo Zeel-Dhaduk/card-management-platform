@@ -8,6 +8,7 @@ const cartItemRouter = require('./routes/cartItemRoute');
 const orderRouter = require('./routes/orderRoute');
 const orderItemRouter = require('./routes/orderItemRoute');
 const reviewRouter = require('./routes/reviewRoute');
+const statsRouter = require('./routes/statsRoute');
 
 const cookieParser = require('cookie-parser');
 
@@ -29,6 +30,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.use('/dashboard', statsRouter);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 app.use('/categories', categoryRouter);
