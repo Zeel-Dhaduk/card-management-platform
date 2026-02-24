@@ -80,6 +80,9 @@ cardSchema.pre(/^find/, function () {
     select: 'review rating user',
   });
 });
+
+cardSchema.index({ category: 1 });
+
 const Card = mongoose.model('Card', cardSchema);
 
 module.exports = Card;

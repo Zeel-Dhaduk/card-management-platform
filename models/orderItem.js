@@ -31,6 +31,9 @@ const orderItem = new mongoose.Schema({
   },
 });
 
+orderItem.index({ card: 1 });
+orderItem.index({ vendor: 1 });
+
 const OrderItem = mongoose.model('OrderItem', orderItem);
 
 module.exports = OrderItem;
